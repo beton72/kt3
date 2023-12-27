@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-config:/etc/nginx/conf.d
+      - ./html:/usr/share/nginx/html
+
+  apache:
+    image: httpd
+    ports:
+      - "8080:80"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  golang-web:
+    build:
+      context: ./golang-web
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
